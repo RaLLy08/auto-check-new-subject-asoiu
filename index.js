@@ -3,7 +3,7 @@ const Browser = require('zombie');
 const LOGIN_URL = 'http://exam.asoiu.edu.az/studentLogin';
 const PROFILE_URL = 'http://exam.asoiu.edu.az/studentProfile'
 const CHECK_TIME = 60000;
-const CHOOSE_DELAY = 1000;
+const CHOOSE_DELAY = 900000;
 let urlValue = undefined;
 
 //require('events').EventEmitter.defaultMaxListeners = Infinity;
@@ -35,7 +35,7 @@ const visit = (browser, url) => new Promise((resolve, reject) => {
   browser.visit(url, () => {
     browser.wait().then(function() {
       //console.log(status, respUrl, url);
-      if ((browser.response.status === 200)) resolve(browser.response.body);
+      if (browser.response && (browser.response.status === 200)) resolve(browser.response.body);
       else reject(html)
     }, () => {
       if ((browser.response.status === 200)) resolve(browser.response.body);
