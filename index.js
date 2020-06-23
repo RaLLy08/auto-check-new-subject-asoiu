@@ -19,28 +19,30 @@ const login = (browser, log, pass) => new Promise((resolve, reject) => {
       browser.fill('input[name=studentPassword]', pass);
       browser.pressButton('input[name=studentSubmit]');
       
-      browser.wait().then(() => {
-        resolve()
-      }, () => {      
-        resolve()
-      })
-    } else {
-      reject(status)
-    }
+      browser.wait()
+        .then(() => {
+          resolve()
+        }, () => {      
+          resolve()
+        })
+        } else {
+          reject(status)
+        }
   })
 })
  
 const visit = (browser, url) => new Promise((resolve, reject) => {
   browser.visit(url, () => {
-    browser.wait().then(function() {
-      //console.log(status, respUrl, url);
-      if (browser.response && (browser.response.status === 200)) resolve(browser.response.body);
-      else reject(html)
-    }, () => {
-      if ((browser.response.status === 200)) resolve(browser.response.body);
-      else reject(html)
-      consoleText('error in visit');
-    })
+    browser.wait()
+      .then(function() {
+        //console.log(status, respUrl, url);
+        if (browser.response && (browser.response.status === 200)) resolve(browser.response.body);
+        else reject(html)
+      }, () => {
+        if ((browser.response.status === 200)) resolve(browser.response.body);
+        else reject(html)
+        consoleText('error in visit');
+      })
   })
 })
 
@@ -82,10 +84,11 @@ const checkSubjects = (htmlBody) => {
 }
 
 const chooseNewSubject = (lastSubjectUrl) => {
-  loginFirst(lastSubjectUrl).then(() => {
-    autoVisit(browser2, lastSubjectUrl).then(() => consoleText('elnur.maharramov.e@asoiu.edu.az selected subject successfully'));
-    autoVisit(browser1, lastSubjectUrl).then(() => consoleText('azad.kichibayov.y@asoiu.edu.az selected subject successfully'));
-  })
+  loginFirst(lastSubjectUrl)
+    .then(() => {
+      autoVisit(browser2, lastSubjectUrl).then(() => consoleText('elnur.maharramov.e@asoiu.edu.az selected subject successfully'));
+      autoVisit(browser1, lastSubjectUrl).then(() => consoleText('azad.kichibayov.y@asoiu.edu.az selected subject successfully'));
+    })
 }
 
 const loginFirst = () => new Promise(resolve => {
@@ -113,7 +116,7 @@ const autoLogin = (browser, log, pass, hasAutoCheck) => new Promise(resolve => {
 
 const autoVisit = (browser, url) => new Promise(resolve => {
   visit(browser, url)
-    .then((html) =>resolve(html))
+    .then((html) => resolve(html))
     .catch((html) => {
       consoleText(`error status, auto visit visit', 'rerunning...', ${url}`);
       setTimeout(() => {
