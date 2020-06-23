@@ -5,7 +5,6 @@ const PROFILE_URL = 'http://exam.asoiu.edu.az/studentProfile'
 const CHECK_TIME = 60000;
 const CHOOSE_DELAY = 900000;
 let urlValue = undefined;
-
 //require('events').EventEmitter.defaultMaxListeners = Infinity;
 const browser1 = new Browser();
 const browser2 = new Browser();
@@ -84,17 +83,16 @@ const checkSubjects = (htmlBody) => {
 
 const chooseNewSubject = (lastSubjectUrl) => {
   loginFirst(lastSubjectUrl).then(() => {
+    autoVisit(browser2, lastSubjectUrl).then(() => consoleText('elnur.maharramov.e@asoiu.edu.az selected subject successfully'));
     autoVisit(browser1, lastSubjectUrl).then(() => consoleText('azad.kichibayov.y@asoiu.edu.az selected subject successfully'));
   })
 }
 
-const loginFirst = (lastSubjectUrl) => new Promise(resolve => {
+const loginFirst = () => new Promise(resolve => {
   autoLogin(browser2, 'elnur.maharramov.e@asoiu.edu.az', 'FPDydxBI')
-    .then(() => autoVisit(browser2, lastSubjectUrl)
-      .then(() => {
-        consoleText('elnur.maharramov.e@asoiu.edu.az selected subject successfully')
-        resolve()
-      }));
+    .then(() => {
+      resolve();
+    });
 })
  
 //logines while error doesn't pressent
