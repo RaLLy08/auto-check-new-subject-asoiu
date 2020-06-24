@@ -37,10 +37,10 @@ const visit = (browser, url) => new Promise((resolve, reject) => {
       .then(function() {
         //console.log(status, respUrl, url);
         if (browser.response && (browser.response.status === 200)) resolve(browser.response.body);
-        else reject(html)
+        else reject()
       }, () => {
         if ((browser.response.status === 200)) resolve(browser.response.body);
-        else reject(html)
+        else reject()
         consoleText('error in visit');
       })
   })
@@ -117,7 +117,7 @@ const autoLogin = (browser, log, pass, hasAutoCheck) => new Promise(resolve => {
 const autoVisit = (browser, url) => new Promise(resolve => {
   visit(browser, url)
     .then((html) => resolve(html))
-    .catch((html) => {
+    .catch(() => {
       consoleText(`error status, auto visit visit', 'rerunning...', ${url}`);
       setTimeout(() => {
         autoVisit(browser, url);
