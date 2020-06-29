@@ -3,11 +3,12 @@ const Browser = require('zombie');
 const LOGIN_URL = 'http://exam.asoiu.edu.az/studentLogin';
 const PROFILE_URL = 'http://exam.asoiu.edu.az/studentProfile'
 const CHECK_TIME = 60000;
-const CHOOSE_DELAY = 900000;
+const CHOOSE_DELAY = 300000;
 let urlValue = undefined;
 //require('events').EventEmitter.defaultMaxListeners = Infinity;
 const browser1 = new Browser();
 const browser2 = new Browser();
+
 
 const login = (browser, log, pass) => new Promise((resolve, reject) => {
   browser.visit(LOGIN_URL, () => {
