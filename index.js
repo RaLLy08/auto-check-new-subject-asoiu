@@ -93,7 +93,7 @@ const chooseNewSubject = (lastSubjectUrl) => {
 }
 
 const loginFirst = () => new Promise(resolve => {
-  autoLogin(browser2, 'elnur.maharramov.e@asoiu.edu.az', 'FPDydxBI')
+  autoLogin(browser2, 'elnur.maharramov.e@asoiu.edu.az', 'password')
     .then(() => {
       resolve();
     });
@@ -126,7 +126,7 @@ const autoVisit = (browser, url) => new Promise(resolve => {
     })
 })
 
-autoLogin(browser1, 'azad.kichibayov.y@asoiu.edu.az', 'BdH5XEUf', true)  //first logines and starting monitoring of changes in subjects
+autoLogin(browser1, 'azad.kichibayov.y@asoiu.edu.az', 'password', true)  //first logines and starting monitoring of changes in subjects
 
 const consoleText = (text) => {
   console.log(`\n*-----------------------------------------------------------------*\n ${text}\n*-----------------------------------------------------------------*`);
