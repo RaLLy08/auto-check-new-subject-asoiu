@@ -38,7 +38,7 @@ const sendMessage = () => {
 const visit = () => {
   browser.visit(url, () => {
     browser.fill('input[name=studentLogin]', 'azad.kichibayov.y@asoiu.edu.az');
-    browser.fill('input[name=studentPassword]', 'BdH5XEUf');
+    browser.fill('input[name=studentPassword]', 'password');
     browser.pressButton('input[name=studentSubmit]');
   
     browser.wait().then(function() {
