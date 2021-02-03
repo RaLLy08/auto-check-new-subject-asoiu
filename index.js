@@ -5,6 +5,7 @@ const mail = 'azad.kichibayov.y@asoiu.edu.az'
 const password = 'yvntEsDZ';
 
 const browser = new Browser();
+const browser2 = new Browser();
 
 const sleep = mSec => new Promise((res, rej) => setTimeout(() => res(), mSec))
 
@@ -31,16 +32,19 @@ const login = (browser, log, pass) => new Promise((resolve, reject) => {
 })
 // 2000-6000
 // 4994 - 7000
-const init = async (browser, log, pass) => {
+// 7300 - 9999
+const init = async (browser, log, pass, from, to) => {
   await login(browser, log, pass);
-  let cycle = 7000;
+  let cycle = from;
 
   const selection = async () => {
-    await browser.visit(`http://asoiuexam.com/selectTicketAct/1136/809/13${cycle}/1`, () => console.log(cycle, 'VISITING'))
+    const link = `https://asoiuexam.com/selectTicketAct/1136/809/13${'0'.repeat((4 - `${cycle}`.length)) + `${cycle}`}/1`;
+
+    await browser.visit(link, () => console.log(cycle,link, 'VISITING', from, '-', to))
     await browser.wait();
 
     cycle += 1;
-    // await sleep(500)
+
 
     if (cycle % 500 === 0) {
       console.log('checkpoint')
@@ -48,10 +52,8 @@ const init = async (browser, log, pass) => {
 
       await browser.wait();
     }
-    // const isPageOpened = await new Promise((y, n) => browser.visit(`https://asoiuexam.com/showTicket/809`, () => y(!browser.redirected)))
-    // await browser.wait();
-    
-    if (cycle >= 9999 || isPageOpened) {
+
+    if (cycle >= to || isPageOpened) {
       consoleText(cycle);
       return;
     } else {
@@ -63,7 +65,8 @@ const init = async (browser, log, pass) => {
 }
 
 
-init(browser, mail, password);
+init(browser, mail, password, 0, 1001);
+init(browser2, mail, password, 1000, 2200);
 
 
 
