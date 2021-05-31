@@ -8,14 +8,14 @@ const browser3 = new Browser();
 const browser4 = new Browser();
 
 //
-const subjectID = '';
+const subjectID = '1534';
 const delayBetweenAuth = 10000;
 
 const delayBeforeDeleting = 60000;
 
 const first = {
   login: 'azad.kichibayov.y@asoiu.edu.az',
-  password: ''  
+  password: 'XVukEu51'  
 }
 
 const second = {
@@ -33,6 +33,9 @@ const fourth = {
   password: ''  
 }
 // 
+const consoleText = (text) => {
+  console.log(`\n*-----------------------------------------------------------------*\n ${text}\n*-----------------------------------------------------------------*`);
+}
 
 const sleep = mSec => new Promise((res, rej) => setTimeout(() => res(), mSec))
 
@@ -48,8 +51,10 @@ const login = (browser, log, pass) => new Promise((resolve, reject) => {
       
       browser.wait()
         .then(() => {
+          consoleText(`logined ${log}`);
           resolve()
-        }, () => {      
+        }, () => {
+          consoleText(`logined ${log}`);      
           resolve()
         })
         } else {
@@ -89,39 +94,33 @@ const init = async (browser, log, pass) => {
 
 const asyncStart = async () => {
   if (first.login && first.password) {
-    consoleText(first.login);
+    // consoleText(first.login);
     init(browser, first.login, first.password);
+    await sleep(delayBetweenAuth);
   };
 
-  await sleep(delayBetweenAuth);
+  // if (second.login && first.password) {
+  //   consoleText(second.login)
+  //   init(browser2, second.login, second.password);
+  //   await sleep(delayBetweenAuth);
+  // }
 
-  if (second.login && first.password) {
-    consoleText(second.login)
-    init(browser2, second.login, second.password);
-  }
+  // if (third.login && first.password) {
+  //   consoleText(third.login);
 
-  await sleep(delayBetweenAuth);
-  
-  if (third.login && first.password) {
-    consoleText(third.login);
+  //   init(browser3, third.login, third.password);
+  //   await sleep(delayBetweenAuth);
+  // }
 
-    init(browser3, third.login, third.password);
-  }
+  // if (fourth.login && first.password) {
+  //   consoleText(third.login);
 
-  await sleep(delayBetweenAuth);
-  
-  if (fourth.login && first.password) {
-    consoleText(third.login);
-
-    init(browser4, third.login, third.password);
-  }
-
+  //   init(browser4, third.login, third.password);
+  // }
 } 
 
 asyncStart();
 
 
 
-const consoleText = (text) => {
-  console.log(`\n*-----------------------------------------------------------------*\n ${text}\n*-----------------------------------------------------------------*`);
-}
+
