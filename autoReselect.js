@@ -74,16 +74,15 @@ const init = async (browser, log, pass) => {
   await login(browser, log, pass);
 
   const selection = async () => {
-    await browser.visit(`https://asoiuexam.com/ticketSelect/${subjectID}`, () => console.log('VISITING'));
-    consoleText(`added ${log}`)
+    await browser.visit(`https://asoiuexam.com/ticketSelect/${subjectID}`, () => console.log(`----- successful ADD request for: ${log}`));
+    consoleText(`subject added for: ${log}`)
 
     await sleep(delayBeforeDeleting)
 
-    await browser.visit(`https://asoiuexam.com/deleteTicket/${subjectID}`, () => console.log('DELETING'));
+    await browser.visit(`https://asoiuexam.com/deleteTicket/${subjectID}`, () => console.log(`----- successful DELETE request for: ${log}`));
+    consoleText(`subject removed for: ${log}`)
 
-    consoleText(`removed ${log}`)
-
-    await sleep(1000)
+    await sleep(500)
 
     return selection()
   }
@@ -96,7 +95,7 @@ const asyncStart = async () => {
   if (first.login && first.password) {
     consoleText(first.login);
     init(browser, first.login, first.password);
-    
+
     await sleep(delayBetweenAuth);
   };
 
