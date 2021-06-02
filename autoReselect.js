@@ -99,14 +99,14 @@ const asyncStart = async () => {
     await sleep(delayBetweenAuth);
   };
 
-  if (second.login && first.password) {
+  if (second.login && second.password) {
     consoleText(second.login)
     init(browser2, second.login, second.password);
 
     await sleep(delayBetweenAuth);
   }
 
-  if (third.login && first.password) {
+  if (third.login && third.password) {
     consoleText(third.login);
 
     init(browser3, third.login, third.password);
@@ -114,10 +114,10 @@ const asyncStart = async () => {
     await sleep(delayBetweenAuth);
   }
 
-  if (fourth.login && first.password) {
-    consoleText(third.login);
+  if (fourth.login && fourth.password) {
+    consoleText(fourth.login);
 
-    init(browser4, third.login, third.password);
+    init(browser4, fourth.login, fourth.password);
 
     await sleep(delayBetweenAuth);
   }
