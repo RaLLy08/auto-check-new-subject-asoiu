@@ -70,65 +70,77 @@ const login = (browser, log, pass) => new Promise((resolve, reject) => {
   })
 })
 
+const promisedVisit = (url, browser) => 
+  new Promise((y, n) => {
+    browser.visit(url, (data) => y(data))
+  });
+
+
+
+
 const init = async (browser, log, pass) => {
   await login(browser, log, pass);
 
   const selection = async () => {
-    await browser.visit(`https://asoiuexam.com/ticketSelect/${subjectID}`, () => console.log(`----- successful ADD request for: ${log}`));
-    consoleText(`subject added for: ${log}`)
+    await promisedVisit(`https://asoiuexam.com/ticketSelect/${subjectID}`, browser);
+    await promisedVisit(`https://asoiuexam.com/ticketSelect/${subjectID}`, browser);
+    await sleep(200);
+    await promisedVisit(`https://asoiuexam.com/ticketSelect/${subjectID}`, browser);
+
+    consoleText(`subject added for: ${log}`);
 
     await sleep(delayBeforeDeleting)
 
     await browser.visit(`https://asoiuexam.com/deleteTicket/${subjectID}`, () => console.log(`----- successful DELETE request for: ${log}`));
     consoleText(`subject removed for: ${log}`)
 
-    await sleep(500)
+    await sleep(200);
 
-    return selection()
+    return selection();
   }
 
-  await selection()
+  await selection();
 }
 
 
 const asyncStart = async () => {
-  if (first.login && first.password) {
-    consoleText(first.login);
-    init(browser, first.login, first.password);
+  // if (first.login && first.password) {
+  //   consoleText(first.login);
+  //   init(browser, first.login, first.password);
 
-    await sleep(delayBetweenAuth);
-  };
+  //   await sleep(delayBetweenAuth);
+  // };
 
-  if (second.login && second.password) {
-    consoleText(second.login)
-    init(browser2, second.login, second.password);
+  // if (second.login && second.password) {
+  //   consoleText(second.login)
+  //   init(browser2, second.login, second.password);
 
-    await sleep(delayBetweenAuth);
-  }
+  //   await sleep(delayBetweenAuth);
+  // }
 
-  if (third.login && third.password) {
-    consoleText(third.login);
+  // if (third.login && third.password) {
+  //   consoleText(third.login);
 
-    init(browser3, third.login, third.password);
+  //   init(browser3, third.login, third.password);
 
-    await sleep(delayBetweenAuth);
-  }
+  //   await sleep(delayBetweenAuth);
+  // }
 
-  if (fourth.login && fourth.password) {
-    consoleText(fourth.login);
+  // if (fourth.login && fourth.password) {
+  //   consoleText(fourth.login);
 
-    init(browser4, fourth.login, fourth.password);
+  //   init(browser4, fourth.login, fourth.password);
 
-    await sleep(delayBetweenAuth);
-  }
+  //   await sleep(delayBetweenAuth);
+  // }
 
-  if (fifth.login && fifth.password) {
-    consoleText(fifth.login);
-    init(browser5, fifth.login, fifth.password);
-  }
+  // if (fifth.login && fifth.password) {
+  //   consoleText(fifth.login);
+  //   init(browser5, fifth.login, fifth.password);
+  // }
 } 
 
-asyncStart();
+// asyncStart();
 
 
 

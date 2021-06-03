@@ -1,18 +1,37 @@
 const Browser = require('zombie');
-
-const browser = new Browser();
-const browser2 = new Browser();
+const fs = require('fs');
 
 const LOGIN_URL = 'https://asoiuexam.com/studentLogin';
-const mail = 'azad.kichibayov.y@asoiu.edu.az'
-const password = 'XVukEu51';
 
-const subjectID = '3';
-const constFirstNumber = '33'; 
+const autoSelectionConfigs = [
+  {
+    mail: 'azad.kichibayov.y@asoiu.edu.az',
+    password: 'XVukEu51',
+    subjectID: '358',
+    constFirstNumber: '1136',
+    startDelay: 0,
+    from: 10000,
+    to: 20000
+  },
+  {
+    mail: 'azad.kichibayov.y@asoiu.edu.az',
+    password: 'XVukEu51',
+    subjectID: '358',
+    constFirstNumber: '1136',
+    startDelay: 400,
+    from: 20000,
+    to: 30000
+  },
+];
+//////////////////////////////////////
 
-const twoUnknownNumbers = '10'   // xx9999
 
 const sleep = mSec => new Promise((res, rej) => setTimeout(() => res(), mSec))
+
+const promisedVisit = (url, browser) => 
+  new Promise((y, n) => {
+    browser.visit(url, (data) => y(data))
+  });
 
 const login = (browser, log, pass) => new Promise((resolve, reject) => {
   browser.visit(LOGIN_URL, () => {
@@ -36,18 +55,22 @@ const login = (browser, log, pass) => new Promise((resolve, reject) => {
         }
   })
 })
-// 2000-6000
-// 4994 - 7000
-// 7300 - 9999
-const init = async (browser, log, pass, from, to) => {
-  await login(browser, log, pass);
+
+const init = async (browser, config) => {
+  const { mail, password, subjectID, constFirstNumber, from, to } = config;
+
+  await login(browser, mail, password);
   let cycle = from;
 
   const selection = async () => {
-    const link = `https://asoiuexam.com/selectTicketAct/${constFirstNumber}/${subjectID}/${twoUnknownNumbers}${'0'.repeat((4 - `${cycle}`.length)) + `${cycle}`}/1`;
+    // const link = `https://asoiuexam.com/selectTicketAct/${constFirstNumber}/${subjectID}/${twoUnknownNumbers}${'0'.repeat((4 - `${cycle}`.length)) + `${cycle}`}/1`;
+    const link = `https://asoiuexam.com/selectTicketAct/${constFirstNumber}/${subjectID}/${cycle}/1`;
 
-    await browser.visit(link, () => console.log(cycle, link, 'VISITING', from, '-', to))
+    await promisedVisit(link, browser)
+
+
     await browser.wait();
+    console.log(cycle, link, 'VISITING STATUS:', browser.status, from, '-', to);
 
     cycle += 1;
 
@@ -60,6 +83,10 @@ const init = async (browser, log, pass, from, to) => {
     }
 
     if (cycle >= to || isPageOpened) {
+      if (isPageOpened) {
+        fs.writeFile('./logs.txt', cycle, (err) => { if (err) throw err} );
+      }
+
       consoleText(cycle);
       return;
     } else {
@@ -70,13 +97,18 @@ const init = async (browser, log, pass, from, to) => {
   await selection()
 }
 
+const asyncStart = async () => {
+  autoSelectionConfigs.forEach(async config => {
+    init(new Browser(), config);
 
-init(browser, mail, password, 0, 1001);
-// init(browser2, mail, password, 1000, 2200);
-
-
+    await sleep(config.startDelay);
+  });
+}
 
 
 const consoleText = (text) => {
   console.log(`\n*-----------------------------------------------------------------*\n ${text}\n*-----------------------------------------------------------------*`);
 }
+
+
+asyncStart();

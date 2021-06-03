@@ -1,2 +1,3 @@
 // import './ticketGuessing';
-require('./autoReselect');
+// require('./autoReselect');
+require('./ticketGuessing');
