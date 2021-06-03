@@ -10,8 +10,8 @@ const autoSelectionConfigs = [
     subjectID: '358',
     constFirstNumber: '1136',
     startDelay: 0,
-    from: 10000,
-    to: 20000
+    from: 50000,
+    to: 55000
   },
   {
     mail: 'azad.kichibayov.y@asoiu.edu.az',
@@ -19,8 +19,8 @@ const autoSelectionConfigs = [
     subjectID: '358',
     constFirstNumber: '1136',
     startDelay: 400,
-    from: 20000,
-    to: 30000
+    from: 55000,
+    to: 60000
   },
 ];
 //////////////////////////////////////
