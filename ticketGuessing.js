@@ -7,19 +7,19 @@ const autoSelectionConfigs = [
   {
     mail: 'azad.kichibayov.y@asoiu.edu.az',
     password: 'XVukEu51',
-    subjectID: '358',
+    subjectID: '460',
     constFirstNumber: '1136',
     startDelay: 0,
-    from: 50000,
+    from: 53340,
     to: 55000
   },
   {
     mail: 'azad.kichibayov.y@asoiu.edu.az',
     password: 'XVukEu51',
-    subjectID: '358',
+    subjectID: '460',
     constFirstNumber: '1136',
     startDelay: 400,
-    from: 55000,
+    from: 58370,
     to: 60000
   },
 ];

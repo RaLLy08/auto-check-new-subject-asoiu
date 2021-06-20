@@ -2,42 +2,30 @@ const Browser = require('zombie');
 
 const LOGIN_URL = 'https://asoiuexam.com/studentLogin';
 
-const browser = new Browser();
-const browser2 = new Browser();
-const browser3 = new Browser();
-const browser4 = new Browser();
-const browser5 = new Browser();
-
+const autoReSelectionConfigs = [
+  {
+    mail: 'azad.kichibayov.y@asoiu.edu.az',
+    password: 'XVukEu51',
+    subjectID: '167',
+    startDelay: 0,
+  },
+  {
+    mail: 'denis.sazonov.d@asoiu.edu.az',
+    password: 'AS7yIMtU',
+    subjectID: '167',
+    startDelay: 10000,
+  },
+  {
+    mail: 'darya.ahmadova.q@asoiu.edu.az',
+    password: '7swDADAO',
+    subjectID: '167',
+    startDelay: 20000,
+  },
+];
 //
-const subjectID = '1534';
-const delayBetweenAuth = 10000;
 
 const delayBeforeDeleting = 60000;
 
-const first = {
-  login: 'emil.aliyev.n@asoiu.edu.az',
-  password: 'KYyo3d2q'  
-}
-
-const second = {
-  login: 'elnur.maharramov.e@asoiu.edu.az',
-  password: 'xzgaRrRd'
-}
-
-const third = {
-  login: 'azad.kichibayov.y@asoiu.edu.az',
-  password: 'XVukEu51'  
-}
-
-const fourth = {
-  login: 'denis.sazonov.d@asoiu.edu.az',
-  password: 'AS7yIMtU'  
-}
-
-const fifth = {
-  login: 'darya.ahmadova.q@asoiu.edu.az',
-  password: '7swDADAO'
-}
 
 /////////////////// 
 const consoleText = (text) => {
@@ -76,23 +64,20 @@ const promisedVisit = (url, browser) =>
   });
 
 
-
-
-const init = async (browser, log, pass) => {
-  await login(browser, log, pass);
+const initReselectLoop = async (browser, config) => {
 
   const selection = async () => {
-    await promisedVisit(`https://asoiuexam.com/ticketSelect/${subjectID}`, browser);
-    await promisedVisit(`https://asoiuexam.com/ticketSelect/${subjectID}`, browser);
+    await promisedVisit(`https://asoiuexam.com/ticketSelect/${config.subjectID}`, browser);
+    await promisedVisit(`https://asoiuexam.com/ticketSelect/${config.subjectID}`, browser);
     await sleep(200);
-    await promisedVisit(`https://asoiuexam.com/ticketSelect/${subjectID}`, browser);
+    await promisedVisit(`https://asoiuexam.com/ticketSelect/${config.subjectID}`, browser);
 
-    consoleText(`subject added for: ${log}`);
+    consoleText(`subject added for: ${config.mail}`);
 
-    await sleep(delayBeforeDeleting)
+    await sleep(delayBeforeDeleting);
 
-    await browser.visit(`https://asoiuexam.com/deleteTicket/${subjectID}`, () => console.log(`----- successful DELETE request for: ${log}`));
-    consoleText(`subject removed for: ${log}`)
+    await browser.visit(`https://asoiuexam.com/deleteTicket/${config.subjectID}`, () => console.log(`----- successful DELETE request for: ${config.mail}`));
+    consoleText(`subject removed for: ${config.mail}`)
 
     await sleep(200);
 
@@ -102,46 +87,57 @@ const init = async (browser, log, pass) => {
   await selection();
 }
 
-
 const asyncStart = async () => {
-  // if (first.login && first.password) {
-  //   consoleText(first.login);
-  //   init(browser, first.login, first.password);
+  autoReSelectionConfigs.forEach(async config => {
+    const browser = new Browser();
+    await sleep(config.startDelay);
 
-  //   await sleep(delayBetweenAuth);
-  // };
+    await login(browser, config.mail, config.password);
 
-  // if (second.login && second.password) {
-  //   consoleText(second.login)
-  //   init(browser2, second.login, second.password);
+    initReselectLoop(browser, config);
+    
+    consoleText(config.mail);
+  });
+}
 
-  //   await sleep(delayBetweenAuth);
-  // }
-
-  // if (third.login && third.password) {
-  //   consoleText(third.login);
-
-  //   init(browser3, third.login, third.password);
-
-  //   await sleep(delayBetweenAuth);
-  // }
-
-  // if (fourth.login && fourth.password) {
-  //   consoleText(fourth.login);
-
-  //   init(browser4, fourth.login, fourth.password);
-
-  //   await sleep(delayBetweenAuth);
-  // }
-
-  // if (fifth.login && fifth.password) {
-  //   consoleText(fifth.login);
-  //   init(browser5, fifth.login, fifth.password);
-  // }
-} 
-
-// asyncStart();
+asyncStart();
 
 
+// const asyncStart = async () => {
+//   if (first.login && first.password) {
+//     consoleText(first.login);
+//     init(browser, first.login, first.password);
+
+//     await sleep(delayBetweenAuth);
+//   };
+
+//   if (second.login && second.password) {
+//     consoleText(second.login)
+//     init(browser2, second.login, second.password);
+
+//     await sleep(delayBetweenAuth);
+//   }
+
+//   if (third.login && third.password) {
+//     consoleText(third.login);
+
+//     init(browser3, third.login, third.password);
+
+//     await sleep(delayBetweenAuth);
+//   }
+
+//   if (fourth.login && fourth.password) {
+//     consoleText(fourth.login);
+
+//     init(browser4, fourth.login, fourth.password);
+
+//     await sleep(delayBetweenAuth);
+//   }
+
+//   if (fifth.login && fifth.password) {
+//     consoleText(fifth.login);
+//     init(browser5, fifth.login, fifth.password);
+//   }
+// } 
 
 
