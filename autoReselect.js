@@ -24,7 +24,7 @@ const autoReSelectionConfigs = [
 ];
 //
 
-const delayBeforeDeleting = 60000;
+const delayBeforeDeleting = 180000;
 
 
 /////////////////// 
@@ -67,10 +67,30 @@ const promisedVisit = (url, browser) =>
 const initReselectLoop = async (browser, config) => {
 
   const selection = async () => {
-    await promisedVisit(`https://asoiuexam.com/ticketSelect/${config.subjectID}`, browser);
-    await promisedVisit(`https://asoiuexam.com/ticketSelect/${config.subjectID}`, browser);
-    await sleep(200);
-    await promisedVisit(`https://asoiuexam.com/ticketSelect/${config.subjectID}`, browser);
+
+    await new Promise((res, rej) => {
+      let selectedSubjectLength = 0;
+
+      const loop = async () => {
+        await promisedVisit(`https://asoiuexam.com/ticketSelect/${config.subjectID}`, browser);
+        await promisedVisit(`https://asoiuexam.com/studentExamLessonList`, browser);
+
+        selectedSubjectLength = browser.response.body.match(/fa fa-trash-o/g).length;
+
+        console.log(selectedSubjectLength, config.mail, 'looped');
+
+        
+        if (selectedSubjectLength === 4) {
+          return res();
+        } else {
+          await sleep(1000);
+          return loop();
+        }
+      }
+
+      loop();
+    })
+
 
     consoleText(`subject added for: ${config.mail}`);
 
@@ -80,7 +100,7 @@ const initReselectLoop = async (browser, config) => {
     consoleText(`subject removed for: ${config.mail}`)
 
     await sleep(200);
-
+  
     return selection();
   }
 
